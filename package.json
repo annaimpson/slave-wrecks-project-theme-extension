@@ -1,0 +1,40 @@
+{
+  "name": "studio-gradients-theme-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "prettier": "prettier --write \"**/*.{js,php}\"",
+    "prettier:check": "prettier --check \"**/*.{js,php}\"",
+    "stylelint": "stylelint \"**/*.scss\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mosaicstg/studio-gradients-theme-extension.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mosaicstg/studio-gradients-theme-extension/issues"
+  },
+  "homepage": "https://github.com/Mosaicstg/studio-gradients-theme-extension#readme",
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.17.3",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-property-sort-order-smacss": "^7.1.0",
+    "stylelint-config-sass-guidelines": "^8.0.0"
+  },
+  "lint-staged": {
+    "*.scss": "stylelint --fix",
+    "*.{js,php}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {}
+}

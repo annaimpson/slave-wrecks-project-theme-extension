@@ -1,0 +1,12 @@
+# Directories
+node_modules
+.husky
+images
+
+# File patterns
+*.md
+*.scss
+
+# Miscellaneous files
+package-lock.json
+js/swiper-bundle.min.js

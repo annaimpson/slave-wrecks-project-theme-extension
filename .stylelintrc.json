@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-property-sort-order-smacss"
+  ],
+  "rules": {
+    "max-nesting-depth": 4,
+    "order/properties-alphabetical-order": null,
+    "declaration-no-important": true,
+    "scss/percent-placeholder-pattern": "^[a-z]+[_a-z0-9]*([a-z0-9]+\\-*[a-z0-9]+)*$",
+    "string-quotes": "double",
+    "number-leading-zero": "never",
+    "selector-max-compound-selectors": 4,
+    "selector-class-pattern": "^[a-z0-9\\-\\_]+$",
+    "indentation": null,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["attribute"]
+      }
+    ],
+    "block-no-empty": null,
+    "property-no-vendor-prefix": null
+  },
+  "defaultSeverity": "warning",
+  "ignoreFiles": ["**.*js"]
+}
