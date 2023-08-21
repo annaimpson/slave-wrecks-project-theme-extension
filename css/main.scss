@@ -3,3 +3,48 @@
 @import "mixins";
 @import "media-queries";
 @import "typography";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  background-color: $white;
+  color: $black;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+.swp__body-freeze {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+
+  .swp__body-overlay {
+    @media #{$mq-large} {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: -1;
+      background-color: rgba($black, 0.8);
+      transition: all 1.3s;
+    }
+  }
+}
+
+.swp__margins {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+
+@import "components/header";
+@import "components/footer";

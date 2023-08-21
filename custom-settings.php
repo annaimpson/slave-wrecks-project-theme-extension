@@ -53,13 +53,12 @@ class SlaveWrecksCustomSettings {
     public function general_extended_settings_interface( $options ) {
         // This gets settings for 'general (extended)' ONLY
         $general_extended_settings = _::get( $options, 'general_extended', [] );
-        $translations = pll_the_languages(['raw' => 1]);
         $alert_bar_toggle_checkbox = _::get($general_extended_settings, 'alert_bar_toggle_checkbox', false);
         $alert_bar_text = _::get($general_extended_settings, 'alert_bar_text', false);
         $alert_bar_url = _::get($general_extended_settings, 'alert_bar_url', false);
         $field_prefix              = self::ADMIN_SETTINGS . '[general_extended]';
         $facebook                  = _::get( $general_extended_settings, 'facebook', '' );
-        $tiktok                   = _::get( $general_extended_settings, 'tiktok', '' );
+        $youtube                   = _::get( $general_extended_settings, 'youtube', '' );
         $instagram                   = _::get( $general_extended_settings, 'instagram', '' );
         $twitter                   = _::get( $general_extended_settings, 'twitter', '' );
 
@@ -79,22 +78,6 @@ class SlaveWrecksCustomSettings {
                     <input type="checkbox" name="<?php echo $field_prefix . '[alert_bar_toggle_checkbox]' ?>" <?php echo $alert_bar_toggle_checkbox ? 'checked' : ''; ?>/>
                 </td>
             </tr>
-            <?php foreach ($translations as $translation) {
-                $alert_bar_text = _::get(
-                    $general_extended_settings,
-                    ['alert_bar_text', $translation['slug']],
-                    _::get($general_extended_settings, 'alert_bar_text', '')
-                );
-                echo '<tr>';
-                echo '<th scope="row">' . esc_html($translation['name']) . ' Alert Bar Text</th>';
-                echo '<td>';
-                wp_editor($alert_bar_text, esc_attr($this->generate_editor_id()), [
-                    'textarea_name' => esc_attr($field_prefix . '[alert_bar_text][' . $translation['slug'] . ']'),
-                    'editor_height' => 250
-                ]);
-                echo '</td>';
-                echo '</tr>';
-            } ?>
             <tr>
                 <th scope="row">Alert Bar Link</th>
                 <td><?php $this->generate_text_input( $field_prefix . '[alert_bar_url]', $alert_bar_url, 'Alert Bar Link' ); ?></td>
@@ -117,8 +100,8 @@ class SlaveWrecksCustomSettings {
                 <td><?php $this->generate_text_input( $field_prefix . '[twitter]', $twitter, 'Twitter' ); ?></td>
             </tr>
             <tr>
-                <th scope="row">TikTok</th>
-                <td><?php $this->generate_text_input( $field_prefix . '[tiktok]', $tiktok, 'TikTok' ); ?></td>
+                <th scope="row">Youtube</th>
+                <td><?php $this->generate_text_input( $field_prefix . '[youtube]', $youtube, 'Youtube' ); ?></td>
             </tr>
         </table>
         <?php

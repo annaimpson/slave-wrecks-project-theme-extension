@@ -152,11 +152,9 @@ class SlaveWrecksThemeExtension {
         add_filter( 'mosaic_sections_theme_load_styles', [ $this, 'mosaic_sections_theme_load_styles' ] );
         add_filter( 'nav_menu_link_attributes', [ $this, 'nav_menu_link_attributes' ], 10, 4 );
         add_filter( 'nav_menu_css_class', [ $this, 'nav_menu_css_class' ], 10, 4 );
+        add_filter('nav_menu_submenu_css_class', [$this, 'nav_menu_submenu_css_class'], 10, 3);
 
         add_action('wp_head', [$this, 'wp_head'], 9999999999);
-        add_action('header_alert_bar', [$this, 'header_alert_bar']);
-        add_action( 'swp_header_nav', [ $this, 'swp_header_nav' ] );
-        add_action( 'swp_header_button', [ $this, 'swp_header_button' ] );
         add_action( 'swp_footer_logo', [ $this, 'swp_footer_logo' ] );
         add_action( 'swp_footer_address', [ $this, 'swp_footer_address' ] );
         add_action( 'swp_footer_social', [ $this, 'swp_footer_social' ] );
@@ -175,24 +173,24 @@ class SlaveWrecksThemeExtension {
      * @link https://developer.wordpress.org/reference/hooks/nav_menu_link_attributes/
      */
     public function nav_menu_link_attributes( $atts, $item, $args, $depth ) {
-        if ( $depth > 0 ) {
-            if ( 'primary' === $args->theme_location && 1 === $depth ) {
+        if ($depth > 0) {
+            if ('primary' === $args->theme_location && 1 === $depth) {
                 $atts['class'] = 'header__nav-dropdown-link';
             }
 
             return $atts;
         }
 
-        if ( 'primary' === $args->theme_location ) {
-            if ( in_array( 'menu-item-has-children', $item->classes ) ) {
+        if ('primary' === $args->theme_location) {
+            if (in_array('menu-item-has-children', $item->classes)) {
                 $atts['class'] = 'header__nav-list-link header__nav-list-link--dropdown';
             } else {
                 $atts['class'] = 'header__nav-list-link';
             }
         }
 
-        if ( 'footer' === $args->theme_location ) {
-            $atts['class'] = 'footer__nav-list-link';
+        if ('footer' === $args->theme_location) {
+            $atts['class'] = 'footer__nav-list-item';
         }
 
         return $atts;
@@ -210,13 +208,38 @@ class SlaveWrecksThemeExtension {
      * @return array
      * @link https://developer.wordpress.org/reference/hooks/nav_menu_css_class/
      */
-    public function nav_menu_css_class( $classes, $item, $args, $depth ) {
-        if ( 'primary' === $args->theme_location ) {
+    public function nav_menu_css_class($classes, $item, $args, $depth) {
+        if ($depth > 0) {
+            if ('primary' === $args->theme_location && 1 === $depth) {
+                $classes[] = 'header__nav-dropdown-item';
+            }
+
+            return $classes;
+        }
+
+        if ('primary' === $args->theme_location) {
             $classes[] = 'header__nav-list-item';
         }
 
-        if ( 'footer' === $args->theme_location ) {
-            $classes[] = 'footer__nav-list-item';
+        if ('footer' === $args->theme_location) {
+            $classes[] = 'll__copy footer__nav-list-item';
+        }
+
+        return $classes;
+    }
+
+    /**
+     * Filters the CSS class(es) applied to a menu list element.
+     *
+     * @param string[] $classes Array of the CSS classes that are applied to the menu `<ul>` element.
+     * @param stdClass $args    An object of `wp_nav_menu()` arguments.
+     * @param int      $depth   Depth of menu item. Used for padding.
+     *
+     * @return string[]
+     */
+    public function nav_menu_submenu_css_class($classes, $args, $depth) {
+        if ('primary' === $args->theme_location) {
+            $classes[] = 'header__nav-dropdown-list-wrap';
         }
 
         return $classes;
@@ -249,7 +272,7 @@ class SlaveWrecksThemeExtension {
 
         wp_enqueue_style('glightbox', 'https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css');
         wp_enqueue_script('glightbox', 'https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js');
-        wp_enqueue_style( 'swp-typekit', 'https://use.typekit.net/rgi3ctj.css' );
+        wp_enqueue_style( 'swp-typekit', 'https://use.typekit.net/ofy5mtt.css' );
         wp_enqueue_style( 'swp-swiper-js', 'https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css' );
         wp_register_script ( 'swp', plugin_dir_url( __FILE__ ) . 'js/main.js', [ 'jquery' ], self::VERSION, TRUE );
         wp_register_script ( 'swp-smooth-scroll', plugin_dir_url( __FILE__ ) . 'js/smooth-scroll.js', [ 'jquery' ], self::VERSION, TRUE );
@@ -296,51 +319,6 @@ class SlaveWrecksThemeExtension {
         return array_merge( $sidebars, [ 'header_button' => 'Header Button' ] );
     }
 
-    /**
-     * Taps into the `header_alert_bar` WP action hook that fires in the custom header template part to render
-     * alert bar toggle
-     *
-     * @see template-parts/header.php
-     */
-    public function header_alert_bar() {
-        $general_extended_settings = MosaicTheme::get_option('general_extended', []);
-        $alert_bar_toggle_checkbox = _::get($general_extended_settings, 'alert_bar_toggle_checkbox', false);
-        $alert_bar_url = _::get($general_extended_settings, 'alert_bar_url', false);
-        $alert_bar_text_translations = _::get($general_extended_settings, 'alert_bar_text', []);
-        $alert_bar_text = _::get(
-            $alert_bar_text_translations,
-            _::get($general_extended_settings, 'alertbartext', '')
-        );
-
-
-        if (!$alert_bar_toggle_checkbox) {
-            return;
-        }
-        echo '<div class="header__alert-bar-link-wrap" id="alertBar">';
-        if (!empty($alert_bar_url)) {
-            echo '<a href="' . $alert_bar_url . '" class="header__alert-bar-text">' .
-                apply_filters('the_content', $alert_bar_text) .
-                '</a>';
-        } else {
-            echo '<div class="header__alert-bar-text">' .
-                apply_filters('the_content', $alert_bar_text) .
-                '</div>';
-        }
-        echo '</div>';
-    }
-
-    public function swp_header_nav() {
-        $args = [
-            'theme_location' => 'primary',
-            'container'      => '',
-            'menu_class'     => 'header__nav-list-wrap',
-            'title_li'       => FALSE,
-            'depth'          => 3
-        ];
-
-        wp_nav_menu( $args );
-    }
-
     public function swp_footer_logo() {
         mosaic_get_sidebar( 'footer_sidebar', 'footer__main-logo-wrap', TRUE );
     }
@@ -350,9 +328,9 @@ class SlaveWrecksThemeExtension {
     }
 
     public function wp_footer() {
-        wp_print_scripts('mayday-swiper-js');
-        wp_print_scripts('mayday');
-        wp_print_scripts('mayday-smooth-scroll');
+        wp_print_scripts('swp-swiper-js');
+        wp_print_scripts('swp');
+        wp_print_scripts('swp-smooth-scroll');
     }
 
     public function swp_footer_social() {
@@ -360,12 +338,12 @@ class SlaveWrecksThemeExtension {
         $facebook                  = _::get( $general_extended_settings, 'facebook', '' );
         $instagram                   = _::get( $general_extended_settings, 'instagram', '' );
         $twitter                   = _::get( $general_extended_settings, 'twitter', '' );
-        $tiktok                   = _::get( $general_extended_settings, 'tiktok', '' );
+        $youtube                   = _::get( $general_extended_settings, 'youtube', '' );
 
         $this->footer_social_media_link($facebook, 'facebook');
         $this->footer_social_media_link($instagram, 'instagram');
         $this->footer_social_media_link($twitter, 'twitter');
-        $this->footer_social_media_link($tiktok, 'tiktok');
+        $this->footer_social_media_link($youtube, 'youtube');
     }
 
     /**
@@ -458,3 +436,5 @@ new SlaveWrecksThemeExtension();
 require_once 'custom-settings.php';
 require_once "custom-templates.php";
 require_once 'custom-sections.php';
+require_once 'includes/nav-menus.php';
+

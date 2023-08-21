@@ -2,17 +2,17 @@
 
 class SlaveWrecksNavMenus {
     public function __construct() {
-        add_action('lambda_legal_header_nav', [$this, 'lambda_legal_header_nav']);
+        add_action('swp_header_nav', [$this, 'swp_header_nav']);
     }
 
     /**
-     * Taps into the `lambda_legal_header_nav` action hook created to render the nav items
+     * Taps into the `swp_header_nav` action hook created to render the nav items
      * set for the `primary` menu location.
      *
      * @return void
      * @see template-parts/footer.php
      */
-    public function lambda_legal_header_nav() {
+    public function swp_header_nav() {
         $theme_locations = get_nav_menu_locations();
 
         $menu_obj = get_term($theme_locations['primary'], 'nav_menu');
@@ -21,7 +21,7 @@ class SlaveWrecksNavMenus {
 
         $menu_lists = $this->sanitize_nav_menu($menu_items);
 
-        echo '<ul class="ll__margins header__nav-list-wrap">';
+        echo '<ul class="header__nav-list-wrap">';
 
         foreach ($menu_lists as $menu_nav_item) {
             echo '<li class="header__nav-list-item">';
@@ -30,13 +30,15 @@ class SlaveWrecksNavMenus {
             if (isset($menu_nav_item['child']) && $menu_nav_item['child']) {
                 echo '<button class="header__nav-list-btn header__nav-list-btn--dropdown">';
                 echo $menu_nav_item['title'];
-                echo '<div class="header__nav-dropdown-icon-wrap">';
-                echo '<span class="header__nav-dropdown-icon" role="none"></span>';
-                echo '<span class="header__nav-dropdown-icon" role="none"></span>';
-                echo '</div>';
                 echo '</button>';
 
                 echo '<div class="header__nav-dropdown-wrap">';
+                echo '<button class="header__nav-dropdown-close-btn" aria-haspopup="dialog">';
+                echo '<span class="header__nav-dropdown-close-btn-line" role="none"></span>';
+                echo '<span class="header__nav-dropdown-close-btn-line" role="none"></span>';
+                echo '<p class="header__nav-dropdown-close-tag">Close</p>';
+                echo '</button>';
+
                 echo '<ul class="header__nav-dropdown-list-wrap">';
 
                 $sub_nav_items = $menu_nav_item['children'];
@@ -69,7 +71,7 @@ class SlaveWrecksNavMenus {
         /**
          * Fires just before the closing of the main menu in the header.
          */
-        do_action('lambda_legal_header_nav_before_menu_close');
+        do_action('swp_header_nav_before_menu_close');
 
         echo '</ul>';
     }

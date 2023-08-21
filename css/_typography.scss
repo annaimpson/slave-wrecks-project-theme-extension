@@ -1,0 +1,274 @@
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $freight-sans;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 140%;
+}
+
+p,
+.swp__copy {
+  &,
+  .mosaic-section & {
+    font-size: 15px;
+    font-family: $freight-sans;
+    font-weight: 500;
+    line-height: 155%;
+
+    @media #{$mq-medium} {
+      line-height: 180%;
+    }
+
+    @media #{$mq-large} {
+    }
+
+    ul {
+      &,
+      .mosaic-section & {
+        margin: 0;
+        padding-left: 15px;
+
+        @media #{$mq-large} {
+          padding-left: 25px;
+        }
+      }
+
+      li {
+        position: relative;
+        padding: 0 0 15px 15px;
+        list-style: none;
+
+        @media #{$mq-large} {
+          padding: 0 0 20px 20px;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 9px;
+          left: 0;
+          width: 6px;
+          height: 6px;
+          border-radius: 50px;
+          background-color: $purple;
+        }
+      }
+    }
+
+    ol {
+      padding-left: 20px;
+      list-style: decimal;
+    }
+
+    strong {
+      font-weight: 700;
+    }
+
+    em,
+    i {
+      font-style: italic;
+    }
+
+    a {
+      padding-bottom: 2px;
+      transition: all 0.3s ease-in-out;
+      border-bottom: 2px solid;
+      color: $purple;
+      overflow-wrap: break-word;
+
+      &,
+      .mosaic-section & {
+        text-decoration: none;
+      }
+
+      &:focus {
+        border-color: $blue;
+        color: $blue;
+      }
+    }
+
+    iframe,
+    video {
+      aspect-ratio: 16/9;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}
+
+h1,
+.h1,
+.ll__heading--h1 {
+  &,
+  .mosaic-section & {
+    @include font-scale(375px, 960px, 32px, 32px);
+    padding-bottom: 28px;
+    font-family: $freight-sans;
+    font-weight: 500;
+    line-height: 130%;
+
+    @media #{$mq-large} {
+      @include font-scale(961px, 1440px, 32px, 42px);
+      padding-bottom: 25px;
+    }
+
+    @media screen and (min-width: 1800px) {
+      font-size: 47px;
+    }
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+h2,
+.h2,
+.ll__heading--h2 {
+  &,
+  .mosaic-section & {
+    @include font-scale(375px, 960px, 32px, 27px);
+    padding-bottom: 15px;
+    font-family: $freight-sans;
+    font-weight: 500;
+    line-height: 125%;
+
+    @media #{$mq-large} {
+      @include font-scale(961px, 1440px, 27px, 38px);
+    }
+
+    @media screen and (min-width: 1800px) {
+      font-size: 41px;
+    }
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+h3,
+.h3,
+.ll__heading--h3 {
+  &,
+  .mosaic-section & {
+    font-size: 20px;
+    font-family: $freight-sans;
+    font-weight: 500;
+    line-height: 120%;
+
+    @media #{$mq-large} {
+      @include font-scale(961px, 1440px, 20px, 26px);
+    }
+
+    @media screen and (min-width: 1800px) {
+      font-size: 29px;
+    }
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+h4,
+.h4,
+.ll__heading--h4 {
+  &,
+  .mosaic-section & {
+    font-size: 18px;
+    font-family: $freight-sans;
+    font-weight: 500;
+    line-height: 135%;
+
+    @media #{$mq-large} {
+      @include font-scale(961px, 1440px, 18px, 20px);
+    }
+
+    @media #{$mq-largest} {
+      padding-bottom: 22px;
+    }
+
+    @media screen and (min-width: 1800px) {
+      font-size: 23px;
+    }
+  }
+}
+
+h5,
+.h5,
+.ll__heading--h5 {
+  &,
+  .mosaic-section & {
+    font-size: 16px;
+    font-family: $freight-sans;
+    font-weight: 500;
+    line-height: 135%;
+
+    @media #{$mq-large} {
+      @include font-scale(961px, 1440px, 16px, 18px);
+    }
+
+    @media screen and (min-width: 1800px) {
+      font-size: 20px;
+    }
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+//h6,
+//.h6,
+//.ll__heading--h6 {
+//  &,
+//  .mosaic-section & {
+//    @include font-scale(375px, 1440px, 12px, 18px);
+//    font-family: $ringside-regular;
+//    font-weight: 400;
+//    line-height: 120%;
+//
+//    @media screen and (min-width: 1800px) {
+//      font-size: 20px;
+//    }
+//  }
+//
+//  em {
+//    font-style: italic;
+//  }
+//}
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+@media screen and (min-width: 1800px) {
+}
+
+@media (hover: hover) {
+  p,
+  .ll__copy,
+  .ll__copy--large {
+    &,
+    .mosaic-section & {
+      a:hover {
+        border-color: $purple;
+        color: $purple;
+        text-decoration: none;
+      }
+    }
+
+    .ll__button:hover {
+      &,
+      .mosaic-section & {
+        //border-color: $white;
+        //background-color: $white;
+        //color: $dark-purple;
+      }
+    }
+  }
+}

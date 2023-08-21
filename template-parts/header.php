@@ -25,11 +25,9 @@ do_action('mosaic_before_page_content');
 <section class="header__skip-wrap" id="skip">
     <a class="header__skip-cta" href="#main-body">Skip to Main Content</a>
 </section>
-<div class="header__alert-bar-body">
-    <?php do_action('header_alert_bar'); ?>
-</div>
+<div class="swp__body-overlay"></div>
 <header class="header__body-wrap" id="header">
-    <section class="ll__margins header__nav-body-wrap">
+    <section class="swp__margins header__nav-body-wrap">
         <div class="header__nav-body">
             <a class="header__logo-wrap" href="<?php echo $logo_link_url; ?>">
                 <img class="header__logo" src="<?php echo $logo_src_url; ?>" alt="<?php echo $site_name; ?>"/>
@@ -40,9 +38,7 @@ do_action('mosaic_before_page_content');
                 <span class="header__menu-btn-line" role="none"></span>
             </button>
             <nav class="header__nav-content-wrap" aria-label="menu" role="dialog" aria-modal="true" id="nav">
-                <?php do_action('lambda_legal_header_nav'); ?>
-                <?php do_action('header_donate_button'); ?>
-                <?php do_action('lambda_legal_mobile_secondary_nav'); ?>
+                <?php do_action('swp_header_nav'); ?>
             </nav>
         </div>
     </section>
