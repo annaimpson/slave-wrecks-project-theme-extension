@@ -156,7 +156,9 @@ class SlaveWrecksThemeExtension {
 
         add_action('wp_head', [$this, 'wp_head'], 9999999999);
         add_action( 'swp_footer_logo', [ $this, 'swp_footer_logo' ] );
-        add_action( 'swp_footer_address', [ $this, 'swp_footer_address' ] );
+        add_action( 'swp_footer_email_signup', [ $this, 'swp_footer_email_signup' ] );
+        add_action('swp_footer_copyright', [$this, 'swp_footer_copyright']);
+        add_action('swp_footer_nav', [$this, 'swp_footer_nav']);
         add_action( 'swp_footer_social', [ $this, 'swp_footer_social' ] );
     }
 
@@ -275,7 +277,6 @@ class SlaveWrecksThemeExtension {
         wp_enqueue_style( 'swp-typekit', 'https://use.typekit.net/ofy5mtt.css' );
         wp_enqueue_style( 'swp-swiper-js', 'https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css' );
         wp_register_script ( 'swp', plugin_dir_url( __FILE__ ) . 'js/main.js', [ 'jquery' ], self::VERSION, TRUE );
-        wp_register_script ( 'swp-smooth-scroll', plugin_dir_url( __FILE__ ) . 'js/smooth-scroll.js', [ 'jquery' ], self::VERSION, TRUE );
         wp_register_script ( 'swp-swiper-js', 'https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js', [], '', true );
     }
 
@@ -306,25 +307,31 @@ class SlaveWrecksThemeExtension {
         return $section;
     }
 
-    public function mayday_header_button() {
-        mosaic_get_sidebar( 'header_button', '', TRUE );
-    }
-
     /**
      * @param array $sidebars
      *
      * @return array
      */
     public function mosaic_sidebars_array( $sidebars ) {
-        return array_merge( $sidebars, [ 'header_button' => 'Header Button' ] );
+        $sidebars['swp_footer_email_signup'] = 'Footer Email Signup';
+        $sidebars['swp_footer_copyright'] = 'Footer Copyright';
+        $sidebars['footer_menu_left'] = 'Footer Left Menu';
+        $sidebars['footer_menu_middle'] = 'Footer Middle Menu';
+        $sidebars['footer_menu_right'] = 'Footer Right Menu';
+
+        return array_merge( $sidebars );
     }
 
     public function swp_footer_logo() {
         mosaic_get_sidebar( 'footer_sidebar', 'footer__main-logo-wrap', TRUE );
     }
 
-    public function swp_footer_address() {
-        mosaic_get_sidebar( 'after_footer_sidebar', 'footer__address', TRUE );
+    public function swp_footer_email_signup() {
+        mosaic_get_sidebar('swp_footer_email_signup', 'footer__main-signup', true);
+    }
+
+    public function swp_footer_copyright() {
+        mosaic_get_sidebar('swp_footer_copyright', 'footer__copyright', true);
     }
 
     public function wp_footer() {
@@ -346,21 +353,22 @@ class SlaveWrecksThemeExtension {
         $this->footer_social_media_link($youtube, 'youtube');
     }
 
-    /**
-     * Taps into the `sfg_footer_menu` WP action hook that fires in the footer template to render the footer menu
-     *
-     * @see template-parts/footer.php
-     */
-    public function swp_footer_menu() {
-        $args = [
-            'theme_location' => 'footer',
-            'container' => '',
-            'menu_class' => 'footer__nav-list-wrap',
-            'title_li' => false,
-            'depth' => 3
-        ];
+    public function swp_footer_nav() {
+        $this->footer_menu_left();
+        $this->footer_menu_middle();
+        $this->footer_menu_right();
+    }
 
-        wp_nav_menu($args);
+    public function footer_menu_left() {
+        mosaic_get_sidebar('footer_menu_left', 'footer__main-nav', true);
+    }
+
+    public function footer_menu_middle() {
+        mosaic_get_sidebar('footer_menu_middle', 'footer__main-nav', true);
+    }
+
+    public function footer_menu_right() {
+        mosaic_get_sidebar('footer_menu_right', 'footer__main-nav', true);
     }
 
     /**
@@ -372,8 +380,8 @@ class SlaveWrecksThemeExtension {
         if(!empty($link)) {
             echo '<li class="footer__social-list-item">';
             echo '<a class="footer__list-item-link" href="' . $link . '" target="_blank">';
-            echo '<span class="mayday__helper-text">This link leads off-site.</span>';
-            echo '<img class="footer__list-item-image" src="' . plugin_dir_url(__FILE__) . 'img/' . $type . '-pink.svg " alt="">';
+            echo '<span class="swp__helper-text">This link leads off-site.</span>';
+            echo '<img class="footer__list-item-image" src="' . plugin_dir_url(__FILE__) . 'img/swp-' . $type . '.svg " alt="">';
             echo '</a>';
             echo '</li>';
         }

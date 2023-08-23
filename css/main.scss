@@ -40,9 +40,31 @@ a {
   }
 }
 
+.swp__helper-text {
+  position: absolute;
+  font-size: 0;
+  line-height: 0;
+}
+
 .swp__margins {
   padding-left: 20px;
   padding-right: 20px;
+
+  @media #{$mq-large} {
+    margin-left: 104px;
+  }
+
+  @media #{$mq-largest} {
+    margin-left: 126px;
+  }
+}
+
+.swp__background {
+
+  &--purple {
+    background-color: $purple;
+    color: $white;
+  }
 }
 
 
